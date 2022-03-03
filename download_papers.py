@@ -5,7 +5,7 @@ from utils import papers_read_from_csv,papers_write_to_csv
 import re
 
 CSV_NAME = "papers.csv"
-OUTPUT_CSV_NAME = "papers_downloaded.csv"
+OUTPUT_DIR =  "downloaded_papers"
 
 
 papers = papers_read_from_csv(CSV_NAME)
