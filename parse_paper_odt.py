@@ -3,9 +3,13 @@ from odf import text, teletype
 from paper import Paper
 import re
 import csv        
+from utils import papers_write_to_csv
+ODT_NAME = 'AH Paper.doc.odt'
+OUTPUT_CSV_NAME = 'papers.csv'
+
 
 # load odt
-odt = load('AH Paper.doc.odt')
+odt = load(ODT_NAME)
 
 # get all lines in a list
 lines = list(odt.getElementsByType(text.P))
@@ -42,12 +46,4 @@ for i,by_date in enumerate(split_by_date):
                 new_paper = Paper.from_text(by_id,by_date[0:4],split_by_id[j+1])
                 papers.append(new_paper)
          
-with open('test.csv','w',newline='') as csvfile:
-    writer = csv.DictWriter(csvfile,fieldnames = papers[0].to_dict().keys(),delimiter = ';')
-    writer.writeheader()
-
-    for paper in papers:
-        writer.writerow(paper.to_dict())
-
-
-
+papers_write_to_csv(papers,OUTPUT_CSV_NAME)
