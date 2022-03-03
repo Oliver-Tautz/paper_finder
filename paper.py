@@ -1,7 +1,7 @@
 import re
 
 class Paper:
-    def __init__(self,paper_id,title,authors,year,peer_reviewed,doi=None,filename=None):
+    def __init__(self,paper_id,title,authors,year,peer_reviewed,doi=None,filename=None,downloaded=None):
         self.title = title.lstrip().rstrip()
         self.authors = authors.lstrip().rstrip()
         self.year = year
@@ -9,7 +9,11 @@ class Paper:
         self.paper_id = paper_id
         self.filename = filename
         self.peer_reviewed = peer_reviewed
-
+        self.downloaded = downloaded
+    @classmethod
+    def from_dict(cls,d):
+        print(bool(d['peer_reviewed']))
+        return cls(d['id'],d['title'],d['authors'],d['year'],bool(d['peer_reviewed']),d['doi'],d['filename'],d['downloaded'])
     @classmethod
     def from_text(cls,paper_id_text,year,text):
         regex_id = r'\d{1,3}'
@@ -21,7 +25,7 @@ class Paper:
         match_title = re.split(regex_title,text)
         if match_title:
             authors = match_title[0]
-            title=match_title[1]
+            title=match_title[1][1:-1]
         if not match_title:
             title=None
             authors=None
@@ -51,7 +55,7 @@ class Paper:
                 'year':self.year,
                 'doi':self.doi,
                 'filename':self.filename,
-                'peer_reviewed':self.peer_reviewed}
+                'peer_reviewed':self.peer_reviewed,
+                'downloaded': self.downloaded}
         return d
-
 
