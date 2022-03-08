@@ -17,7 +17,7 @@ makedirs(OUTPUT_DIR,exist_ok=True)
 
 
 for i,p in enumerate(tqdm(papers)):
-    if not p.filename:
+    if not p.filename or p.filename=="not found":
         process = subprocess.run(['sopaper',f'\"{p.title}\"','-d',OUTPUT_DIR])
         time.sleep(60)
     downloaded_names =  listdir(OUTPUT_DIR)   
